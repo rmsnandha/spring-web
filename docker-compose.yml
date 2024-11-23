@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app:
+    image: demo-app:latest
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+    volumes:
+      - ./data:/app/data
+    networks:
+      - app-network
+    deploy:
+      replicas: 2
+
+networks:
+  app-network:
+    driver: overlay
+    attachable: true
